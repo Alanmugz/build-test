@@ -4,13 +4,13 @@ executors:
   default:
     docker:
       - image: circleci/node:16
-    working_directory: .
+    working_directory: ~/build-test
 
 commands:
   attach_project:
     steps:
       - attach_workspace:
-          at: .
+          at: ~/build-test
 
 jobs:
   eas_build:
