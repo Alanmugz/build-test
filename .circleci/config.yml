@@ -4,13 +4,13 @@ executors:
   default:
     docker:
       - image: circleci/node:16
-    working_directory: ~/my-app
+    working_directory: .
 
 commands:
   attach_project:
     steps:
       - attach_workspace:
-          at: ~/my-app
+          at: .
 
 jobs:
   eas_build:
