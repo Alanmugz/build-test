@@ -9,7 +9,7 @@ publish: &publish
 
     - run:
         name: Installing dependencies
-        command: npm ci
+        command: npm install
 
     - run:
         name: Login into Expo
