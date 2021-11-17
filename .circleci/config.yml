@@ -1,36 +1,43 @@
-version: 2.1
+version: 2
+publish: &publish
+  working_directory: ~/my-app
+  docker:
+    - image: circleci/node:10.4.1
+  steps:
+    - checkout
 
-executors:
-  default:
-    docker:
-      - image: circleci/node:16
-    working_directory: ~/build-test
+    - run:
+        name: Installing dependencies
+        command: npm ci
 
-commands:
-  attach_project:
-    steps:
-      - attach_workspace:
-          at: ~/build-test
+    - run:
+        name: Login into Expo
+        command: npx expo-cli login -u $EXPO_USERNAME -p $EXPO_PASSWORD
+
+    - run:
+        name: Publish to Expo
+        command: npx expo-cli publish --non-interactive --max-workers 1 --release-channel $EXPO_RELEASE_CHANNEL
 
 jobs:
-  eas_build:
-    executor: default
-    steps:
-      - checkout
-      - attach_project
+  publish_to_expo_dev:
+    environment:
+      EXPO_RELEASE_CHANNEL: dev
+    <<: *publish
 
-      - run:
-          name: Install dependencies
-          command: npm ci
-
-      - run:
-          name: Trigger build
-          command: npx eas-cli build --platform all --non-interactive
+  publish_to_expo_prod:
+    environment:
+      EXPO_RELEASE_CHANNEL: default
+    <<: *publish
 
 workflows:
-  build_app:
+  version: 2
+  my_app:
     jobs:
-      - eas_build:
+      - publish_to_expo_dev:
+          filters:
+            branches:
+              only: development
+      - publish_to_expo_prod:
           filters:
             branches:
               only: master
