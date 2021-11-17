@@ -5,7 +5,13 @@
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "android": {
+      "package": "com.alanmugz.buildtest"
+    },
+    "ios": {
+      "bundleIdentifier": "com.alanmugz.buildtest"
+    }
   },
   "name": "build-test"
 }
