@@ -23,7 +23,7 @@ publish: &publish
     - run:
         name: Publish IOS to Expo
         no_output_timeout: 30m
-        command: npx expo-cli build:ios -t $TARGET --non-interactive #--release-channel $EXPO_RELEASE_CHANNEL
+        command: npx expo-cli build:ios --non-interactive #--release-channel $EXPO_RELEASE_CHANNEL
 
 jobs:
   publish_android_to_expo:
@@ -32,8 +32,6 @@ jobs:
     <<: *publish
 
   publish_ios_to_expo:
-    environment:
-      TARGET: ipa
     <<: *publish
 
 workflows:
