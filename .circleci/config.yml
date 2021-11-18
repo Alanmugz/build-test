@@ -35,4 +35,4 @@ workflows:
   version: 2
   my_app:
     jobs:
-      - publish_to_expo_dev
+      - publish_android_to_expo
