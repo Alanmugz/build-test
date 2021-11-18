@@ -15,23 +15,25 @@ publish: &publish
         name: Login into Expo
         command: npx expo-cli login -u $EXPO_USERNAME -p $EXPO_PASSWORD
 
-jobs:
-  publish_android_to_expo:
-    environment:
-      TARGET_ANDROID: apk
     - run:
         name: Publish Android to Expo
         no_output_timeout: 30m
         command: npx expo-cli build:android -t $TARGET_ANDROID --non-interactive #--release-channel $EXPO_RELEASE_CHANNEL
+        
+    - run:
+        name: Publish IOS to Expo
+        no_output_timeout: 30m
+        command: npx expo-cli build:ios -t $TARGET_IOS --non-interactive #--release-channel $EXPO_RELEASE_CHANNEL
+
+jobs:
+  publish_android_to_expo:
+    environment:
+      TARGET_ANDROID: apk
     <<: *publish
 
   publish_ios_to_expo:
     environment:
       TARGET_IOS: simulator
-    - run:
-        name: Publish IOS to Expo
-        no_output_timeout: 30m
-        command: npx expo-cli build:ios -t $TARGET_IOS --non-interactive #--release-channel $EXPO_RELEASE_CHANNEL
     <<: *publish
 
 workflows:
