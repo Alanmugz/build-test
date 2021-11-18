@@ -18,12 +18,17 @@ publish: &publish
     - run:
         name: Publish Android to Expo
         no_output_timeout: 30m
-        command: npx expo-cli build:android -t apk --non-interactive #--release-channel $EXPO_RELEASE_CHANNEL
+        command: npx expo-cli build:android -t $TARGET --non-interactive #--release-channel $EXPO_RELEASE_CHANNEL
+        
+    #- run:
+    #    name: Publish IOS to Expo
+    #    no_output_timeout: 30m
+    #    command: npx expo-cli build:ios -t $TARGET --non-interactive #--release-channel $EXPO_RELEASE_CHANNEL
 
 jobs:
-  publish_to_expo_dev:
+  publish_android_to_expo:
     environment:
-      EXPO_RELEASE_CHANNEL: dev
+      TARGET: apk
     <<: *publish
 
 workflows:
