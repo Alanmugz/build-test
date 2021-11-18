@@ -15,10 +15,10 @@ publish: &publish
         name: Login into Expo
         command: npx expo-cli login -u $EXPO_USERNAME -p $EXPO_PASSWORD
 
-    #- run:
-    #    name: Publish Android to Expo
-    #    no_output_timeout: 30m
-    #    command: npx expo-cli build:android -t $TARGET --non-interactive #--release-channel $EXPO_RELEASE_CHANNEL
+    - run:
+        name: Publish Android to Expo
+        no_output_timeout: 30m
+        command: npx expo-cli build:android -t $TARGET --non-interactive #--release-channel $EXPO_RELEASE_CHANNEL
         
     - run:
         name: Publish IOS to Expo
@@ -40,5 +40,7 @@ workflows:
   version: 2
   my_app:
     jobs:
-      #- publish_android_to_expo
+      - publish_android_to_expo
+      - hold:
+          type: approval # requires that an in-app button be clicked by an appropriate member of the project to continue.
       - publish_ios_to_expo
